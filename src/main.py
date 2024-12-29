@@ -1,10 +1,13 @@
 from window import window
+from keys import Keys
 import pygame
 import sys
 
 
 def redraw_game():
     display.fill((235, 237, 233))
+
+    keys.draw(display)
 
     # Blit to screen
     resized_display = pygame.transform.scale(display, win_size)
@@ -36,5 +39,8 @@ if __name__ == "__main__":
     win = pygame.display.set_mode(win_size)
     display = pygame.Surface(window.rect.size)
     pygame.display.set_caption("Hangman")
+
+    # Initialize objects
+    keys = Keys()
 
     game_loop()
