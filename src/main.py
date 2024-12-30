@@ -1,5 +1,6 @@
 from window import window
 from keys import Keys
+from hint import Hint
 import pygame
 import sys
 
@@ -8,6 +9,7 @@ def redraw_game():
     display.fill((235, 237, 233))
 
     keys.draw(display)
+    hint.draw(display)
 
     # Blit to screen
     resized_display = pygame.transform.scale(display, win_size)
@@ -44,5 +46,6 @@ if __name__ == "__main__":
 
     # Initialize objects
     keys = Keys()
+    hint = Hint()
 
     game_loop()
