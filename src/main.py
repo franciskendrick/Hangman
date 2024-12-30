@@ -23,6 +23,8 @@ def game_loop():
             if event.type == pygame.QUIT:
                 run = False
 
+            keys.handle_mouse(event)
+
         redraw_game()
 
     pygame.quit()

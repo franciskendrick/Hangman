@@ -19,3 +19,6 @@ class Interactable:
         order = ["hint", "bookmark", "restart", "keys"]
         self.spritesets = {
             name:clip_set_to_list_on_xaxis(spriteset) for (name, spriteset) in zip(order, separate_sets_from_xaxis(spritesets, (255, 0, 0)))}
+
+    def mouse_ishover(self, hitbox):
+        return True if hitbox.collidepoint(pygame.mouse.get_pos()) else False
