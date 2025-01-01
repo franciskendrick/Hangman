@@ -27,12 +27,19 @@ def game_loop():
             if event.type == pygame.QUIT:
                 run = False
 
-            # TEMPORARY !!!
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_a:
-                    gallows.add_part()
+            keys.handle_mousemotion(event)
 
-            keys.handle_mouse(event)
+        if gallows.life < 6:
+            key_pressed = keys.handle_mousebuttondown()
+
+            if key_pressed != None:
+                if key_pressed in word:
+                    pass
+                else:
+                    gallows.add_part()
+                    if gallows.life == 6:
+                        print("YOU LOST")
+                        # NOTE: restart button will appear
 
         redraw_game()
         clock.tick(30)
@@ -57,5 +64,6 @@ if __name__ == "__main__":
     gallows = Gallows()
     keys = Keys()
     hint = Hint()
+    word = "PLUTO"  # TEMPORARY !!!
 
     game_loop()

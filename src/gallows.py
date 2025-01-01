@@ -68,7 +68,7 @@ class Gallows:
             else:
                 self.idx += 1
 
-    def add_part(self):
+    def add_part(self, num=1):
         if self.life < len(self.order):
-            self.life += 1
+            self.life += num
             self.idx = 0
