@@ -2,6 +2,7 @@ from window import window
 from gallows import Gallows
 from keys import Keys
 from hint import Hint
+from restart import Restart
 import pygame
 import sys
 
@@ -12,6 +13,8 @@ def redraw_game():
     gallows.draw(display)
     keys.draw(display)
     hint.draw(display)
+    if gallows.life == 6:
+        restart.draw(display)
 
     # Blit to screen
     resized_display = pygame.transform.scale(display, win_size)
@@ -64,6 +67,7 @@ if __name__ == "__main__":
     gallows = Gallows()
     keys = Keys()
     hint = Hint()
+    restart = Restart()
     word = "PLUTO"  # TEMPORARY !!!
 
     game_loop()

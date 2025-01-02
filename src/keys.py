@@ -37,13 +37,14 @@ class Keys(Interactable, Font):
         ]
         idx = 0
 
+        wd, ht = (9, 9)
         x_ranges  = [range(2, 100, 10), range(7, 95, 10), range(17, 85, 10)]
         for y_idx, y in enumerate(range(48, 78, 11)):
             for x in x_ranges[y_idx]:
-                rect = pygame.Rect(x, y, 9, 9)
+                rect = pygame.Rect(x, y, wd, ht)
                 hitbox = pygame.Rect(
                     x * window.enlarge, y * window.enlarge, 
-                    9 * window.enlarge, 9 * window.enlarge)
+                    wd * window.enlarge, ht * window.enlarge)
                 self.buttons[order[idx]] = [0, rect, hitbox]  # status, rect, hitbox
 
                 idx += 1

@@ -43,7 +43,7 @@ class Gallows:
             wd, ht = spriteset[0].get_size()
             self.man[name] = [spriteset, pygame.Rect(*coords, wd, ht)]
 
-        self.life = -1  # Tracks how many parts are visible
+        self.life = -1
         self.idx = 0
 
     def draw(self, display):
