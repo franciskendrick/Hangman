@@ -40,3 +40,18 @@ class Restart(Interactable, Font):
         status, rect, _ = self.button
         img = self.images[status]
         display.blit(img, rect)
+
+    def handle_mouse(self, event):
+        if not pygame.mouse.get_focused():
+            return
+
+        mouse_pos = pygame.mouse.get_pos()
+        status, _, hitbox = self.button
+
+        if event.type == pygame.MOUSEMOTION:
+            if status != 2:
+                self.button[0] = 1 if self.mouse_ishover(hitbox) else 0
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+           if hitbox.collidepoint(mouse_pos):
+                return True

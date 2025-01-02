@@ -65,7 +65,7 @@ class Keys(Interactable, Font):
 
     def handle_mousemotion(self, event):
         if not pygame.mouse.get_focused():
-            return None
+            return
 
         if event.type == pygame.MOUSEMOTION:
             for button in self.buttons.values():
@@ -82,3 +82,7 @@ class Keys(Interactable, Font):
                 if status != 2 and hitbox.collidepoint(mouse_pos):
                     button[0] = 2
                     return letter
+
+    def restart(self):
+        for button in self.buttons.values():
+            button[0] = 0

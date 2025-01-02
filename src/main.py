@@ -32,6 +32,11 @@ def game_loop():
 
             keys.handle_mousemotion(event)
 
+            if gallows.life == 6:
+                if restart.handle_mouse(event):
+                    gallows.restart()
+                    keys.restart()
+
         if gallows.life < 6:
             key_pressed = keys.handle_mousebuttondown()
 

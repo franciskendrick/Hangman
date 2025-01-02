@@ -72,3 +72,6 @@ class Gallows:
         if self.life < len(self.order):
             self.life += num
             self.idx = 0
+
+    def restart(self):
+        self.life = -1
