@@ -63,25 +63,20 @@ class Keys(Interactable, Font):
 
                 display.blit(img, rect)
 
-    def handle_mousemotion(self, event):
-        if not pygame.mouse.get_focused():
-            return
-
-        if event.type == pygame.MOUSEMOTION:
-            for button in self.buttons.values():
-                status, _, hitbox = button
-                if status != 2:
-                    button[0] = 1 if self.mouse_ishover(hitbox) else 0
+    def handle_mousemotion(self):
+        for button in self.buttons.values():
+            status, _, hitbox = button
+            if status != 2:
+                button[0] = 1 if self.mouse_ishover(hitbox) else 0
 
     def handle_mousebuttondown(self):
-        if pygame.mouse.get_focused() and pygame.mouse.get_pressed()[0]:  # mouse is on screen and left click
-            mouse_pos = pygame.mouse.get_pos()
+        mouse_pos = pygame.mouse.get_pos()
 
-            for letter, button in self.buttons.items():
-                status, _, hitbox = button
-                if status != 2 and hitbox.collidepoint(mouse_pos):
-                    button[0] = 2
-                    return letter
+        for letter, button in self.buttons.items():
+            status, _, hitbox = button
+            if status != 2 and hitbox.collidepoint(mouse_pos):
+                button[0] = 2
+                return letter
 
     def restart(self):
         for button in self.buttons.values():

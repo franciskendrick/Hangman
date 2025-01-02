@@ -30,24 +30,34 @@ def game_loop():
             if event.type == pygame.QUIT:
                 run = False
 
-            keys.handle_mousemotion(event)
+            if pygame.mouse.get_focused:
+                if event.type == pygame.MOUSEMOTION:
+                    keys.handle_mousemotion()
+                    restart.handle_mousemotion()
 
-            if gallows.life == 6:
-                if restart.handle_mouse(event):
-                    gallows.restart()
-                    keys.restart()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse_pos = pygame.mouse.get_pos()
+                    
+                    # Handle restart button
+                    if gallows.life == 6:
+                        is_pressed = restart.handle_mousebuttondown(mouse_pos)
+                        if is_pressed:
+                            gallows.restart()
+                            keys.restart()
 
         if gallows.life < 6:
-            key_pressed = keys.handle_mousebuttondown()
-
-            if key_pressed != None:
-                if key_pressed in word:
-                    pass
-                else:
-                    gallows.add_part()
-                    if gallows.life == 6:
-                        print("YOU LOST")
-                        # NOTE: restart button will appear
+            if pygame.mouse.get_focused() and pygame.mouse.get_pressed()[0]:  # mouse is on screen and left click
+                
+                # Handle keys 
+                key_pressed = keys.handle_mousebuttondown()
+                if key_pressed != None:
+                    if key_pressed in word:
+                        pass
+                    else:
+                        gallows.add_part()
+                        if gallows.life == 6:
+                            print("YOU LOST")
+                            # NOTE: restart button will appear
 
         redraw_game()
         clock.tick(30)
