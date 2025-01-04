@@ -15,7 +15,8 @@ resources_path = os.path.abspath(
 
 class Hint(Interactable, Font):
     def __init__(self):
-        super().__init__()
+        Interactable.__init__(self)
+        Font.__init__(self)
 
         self.init_button()
         self.init_bookmarks()

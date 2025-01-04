@@ -15,7 +15,8 @@ resources_path = os.path.abspath(
 
 class Keys(Interactable, Font):
     def __init__(self):
-        super().__init__()
+        Interactable.__init__(self)
+        Font.__init__(self)
 
         # Images
         btn_img, used_attachment = self.spritesets["keys"]
@@ -37,7 +38,8 @@ class Keys(Interactable, Font):
         ]
         idx = 0
 
-        wd, ht = (9, 9)
+        self.btn_size = (9, 9)
+        wd, ht = self.btn_size
         x_ranges  = [range(2, 100, 10), range(7, 95, 10), range(17, 85, 10)]
         for y_idx, y in enumerate(range(48, 78, 11)):
             for x in x_ranges[y_idx]:
@@ -50,18 +52,26 @@ class Keys(Interactable, Font):
                 idx += 1
 
     def draw(self, display):
-        for button in self.buttons.values():
+        for letter, button in self.buttons.items():
             status, rect, _ = button
-            if status == 2:
-                img = self.images[1]
-                attachment = self.images[2]
 
-                display.blit(img, rect)
+            # Map status to images
+            img = self.images[1] if status == 2 else self.images[status]
+            attachment = self.images[2] if status == 2 else None
+
+            # Blit the main button image
+            display.blit(img, rect)
+
+            # Calculate text position and render font
+            char_wd, char_ht = self.character_dimensions[letter]
+            btn_wd, btn_ht = self.btn_size
+            pos = (rect.x + ((btn_wd - char_wd) / 2), rect.y + ((btn_ht - char_ht) / 2))
+            self.render_font(display, letter, pos)
+
+            # Blit the attachment image if status == 2
+            if attachment:
                 display.blit(attachment, (rect.x - 1, rect.y - 1))
-            else:
-                img = self.images[status]
 
-                display.blit(img, rect)
 
     def handle_mousemotion(self):
         for button in self.buttons.values():

@@ -13,7 +13,7 @@ resources_path = os.path.abspath(
 )
 
 
-class Restart(Interactable, Font):
+class Restart(Interactable):
     def __init__(self):
         super().__init__()
 
