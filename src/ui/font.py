@@ -25,52 +25,6 @@ class Font:
             '9', '-', "'", ':', '_']
         fontset = pygame.image.load(f"{resources_path}/font.png")
 
-        # Dimensions of each character
-        self.x = {
-            "A": (4, 5),
-            "B": (4, 5),
-            "C": (4, 5),
-            "D": (4, 5),
-            "E": (4, 5),
-            "F": (4, 5),
-            "G": (4, 5),
-            "H": (4, 5),
-            "I": (3, 5),
-            "J": (4, 5),
-            "K": (4, 5),
-            "L": (4, 5),
-            "M": (5, 5),
-            "N": (4, 5),
-            "O": (4, 5),
-            "P": (4, 5),
-            "Q": (5, 5),
-            "R": (4, 5),
-            "S": (4, 5),
-            "T": (5, 5),
-            "U": (4, 5),
-            "V": (4, 5),
-            "W": (5, 5),
-            "X": (4, 5),
-            "Y": (4, 5),
-            "Z": (4, 5),
-
-            "0": (3, 5),
-            "1": (2, 5),
-            "2": (4, 5),
-            "3": (3, 5),
-            "4": (3, 5),
-            "5": (3, 5),
-            "6": (3, 5),
-            "7": (3, 5),
-            "8": (3, 5),
-            "9": (3, 5),
-
-            "-": (3, 5),
-            "'": (1, 5),
-            ":": (1, 5),
-            "_": (4, 5)
-        }
-
         # Color swap characters
         colors = {
             "red": (165, 48, 48),
@@ -127,3 +81,18 @@ class Font:
 
         # Blit to Screen
         display.blit(display_handle, (0, 0))
+
+    def get_size(self, text, enlarge=1):
+        text = text.upper()
+        text_wd = 0
+        text_ht = []
+        
+        for char in text:
+            if char != " ":  # character
+                wd, ht = self.character_dimensions[char] 
+                text_wd += (wd + self.character_spacing) * enlarge
+                text_ht.append(ht)
+            else:  # space
+                text_wd += (self.space + self.character_spacing) * enlarge
+
+        return (text_wd, max(text_ht))

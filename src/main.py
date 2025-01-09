@@ -3,6 +3,7 @@ from gallows import Gallows
 from keys import Keys
 from hint import Hint
 from restart import Restart
+from word import Word
 import pygame
 import sys
 
@@ -15,6 +16,7 @@ def redraw_game():
     hint.draw(display)
     if gallows.life == 6:
         restart.draw(display)
+    word.draw(display)
 
     # Blit to screen
     resized_display = pygame.transform.scale(display, win_size)
@@ -78,11 +80,13 @@ if __name__ == "__main__":
     pygame.display.set_caption("Hangman")
     clock = pygame.time.Clock()
 
+    word_str = "PLUTO"  # TEMPORARY !!!
+
     # Initialize objects
     gallows = Gallows()
     keys = Keys()
     hint = Hint()
     restart = Restart()
-    word = "PLUTO"  # TEMPORARY !!!
+    word = Word(word_str)
 
     game_loop()
