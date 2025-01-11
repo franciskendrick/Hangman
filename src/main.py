@@ -14,7 +14,7 @@ def redraw_game():
     gallows.draw(display)
     keys.draw(display)
     hint.draw(display)
-    if gallows.life == 6:
+    if gallows.life == 6 or gallows.correct_guess == gallows.win:
         restart.draw(display)
     word.draw(display)
 
@@ -41,13 +41,14 @@ def game_loop():
                     mouse_pos = pygame.mouse.get_pos()
                     
                     # Handle restart button
-                    if gallows.life == 6:
+                    if gallows.life == 6 or gallows.correct_guess == gallows.win:
                         is_pressed = restart.handle_mousebuttondown(mouse_pos)
                         if is_pressed:
-                            gallows.restart()
+                            gallows.restart(word_str)
+                            word.restart(word_str)
                             keys.restart()
 
-        if gallows.life < 6:
+        if gallows.life < 6 and gallows.correct_guess < gallows.win:
             if pygame.mouse.get_focused() and pygame.mouse.get_pressed()[0]:  # mouse is on screen and left click
                 
                 # Handle keys 
@@ -55,12 +56,15 @@ def game_loop():
                 if key_pressed != None:
                     if key_pressed in word_str:
                         word.add_letter(key_pressed)
+                        gallows.correct_guess += 1
                     else:
                         gallows.add_part()
                         if gallows.life == 6:
                             print("YOU LOST")
                             # NOTE: restart button will appear
 
+        print(gallows.correct_guess, gallows.win)
+        
         redraw_game()
         clock.tick(30)
 
@@ -83,10 +87,10 @@ if __name__ == "__main__":
     word_str = "PLUTO"  # TEMPORARY !!!
 
     # Initialize objects
-    gallows = Gallows()
+    gallows = Gallows(word_str)
+    word = Word(word_str)
     keys = Keys()
     hint = Hint()
     restart = Restart()
-    word = Word(word_str)
 
     game_loop()

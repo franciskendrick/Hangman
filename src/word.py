@@ -9,9 +9,7 @@ class Word(Font):
     def __init__(self, word):
         super().__init__()
 
-        self.word = word
-        self.word_displayed = ["_" for _ in self.word]
-        self.pos = self.get_pos()
+        self.restart(word)
 
     def draw(self, display):
         self.render_font(display, "".join(self.word_displayed), self.pos)
@@ -26,3 +24,9 @@ class Word(Font):
         indexes = [index for index, char in enumerate(self.word) if char == letter]
         for index in indexes:
             self.word_displayed[index] = self.word[index]
+
+    def restart(self, word):
+        self.word = word
+        self.word_displayed = ["_" for _ in self.word]
+        self.pos = self.get_pos()
+

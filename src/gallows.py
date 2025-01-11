@@ -12,9 +12,12 @@ resources_path = os.path.abspath(
 
 
 class Gallows:
-    def __init__(self):
+    def __init__(self, word):
         self.init_gallows()
         self.init_man()
+
+        self.win = len(set(word))
+        self.correct_guess = 0
 
     def init_gallows(self):
         gallows_img = pygame.image.load(f"{resources_path}/gallows.png")
@@ -73,5 +76,8 @@ class Gallows:
             self.life += num
             self.idx = 0
 
-    def restart(self):
+    def restart(self, word):
         self.life = -1
+
+        self.win = len(set(word))
+        self.correct_guess = 0
