@@ -53,8 +53,8 @@ def game_loop():
                 # Handle keys 
                 key_pressed = keys.handle_mousebuttondown()
                 if key_pressed != None:
-                    if key_pressed in word:
-                        pass
+                    if key_pressed in word_str:
+                        word.add_letter(key_pressed)
                     else:
                         gallows.add_part()
                         if gallows.life == 6:
