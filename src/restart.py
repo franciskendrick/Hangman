@@ -1,5 +1,5 @@
 from functions import palette_swap
-from ui import Font, Interactable
+from ui import Interactable
 from window import window
 import pygame
 import os
