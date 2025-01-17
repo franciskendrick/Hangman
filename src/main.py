@@ -43,9 +43,7 @@ def game_loop():
                     mouse_pos = pygame.mouse.get_pos()
 
                     # Handle hint button
-                    is_pressed = hint.handle_mousebuttondown(mouse_pos)
-                    if is_pressed:
-                        print(True)
+                    hint.handle_mousebuttondown(mouse_pos)
                     
                     # Handle restart button
                     if gallows.life == 6 or gallows.correct_guess == gallows.win:

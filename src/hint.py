@@ -54,15 +54,16 @@ class Hint(Interactable, Font):
 
             hint_display.fill((165, 48, 48))
             self.render_font(hint_display, hint, (2, 1))
+            rect = pygame.Rect(-surf_wd, y, surf_wd, surf_ht)
 
-            self.hints.append([hint_display, (-surf_wd, y)])
+            hint = [False, hint_display, rect]  # is_showed, img, rect
+            self.hints.append(hint)
 
         # Bookmarks
         self.bookmark_image = self.spritesets["bookmark"]
         self.bookmark_rects = []
-        for hint, (x, y) in self.hints:
-            wd, ht = hint.get_size()
-            rect = pygame.Rect(x+wd, y, 8, 7)
+        for _, _, rect in self.hints:
+            rect = pygame.Rect(rect.x + rect.w, rect.y, 8, 7)
             self.bookmark_rects.append(rect)
 
     def draw(self, display):
@@ -75,7 +76,7 @@ class Hint(Interactable, Font):
             display.blit(self.bookmark_image, rect)
         
         # Draw hints
-        for hint, pos in self.hints:
+        for _, hint, pos in self.hints:
             display.blit(hint, pos)
 
     def handle_mousemotion(self):
@@ -86,4 +87,9 @@ class Hint(Interactable, Font):
     def handle_mousebuttondown(self, mouse_pos):
         _, _, hitbox = self.button
         if hitbox.collidepoint(mouse_pos):
-            return True
+            for idx, ((is_showed, _, rect), bookmark_rect) in enumerate(zip(self.hints, self.bookmark_rects)):
+                if not is_showed:
+                    self.hints[idx][0] = True
+                    rect.x = 0
+                    bookmark_rect.x = rect.x + rect.w
+                    return
