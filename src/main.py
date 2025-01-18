@@ -52,6 +52,7 @@ def game_loop():
                             gallows.restart(word_str)
                             word.restart(word_str)
                             keys.restart()
+                            hint.restart(hint1, hint2)
 
         if gallows.life < 6 and gallows.correct_guess < gallows.win:
             if pygame.mouse.get_focused() and pygame.mouse.get_pressed()[0]:  # mouse is on screen and left click

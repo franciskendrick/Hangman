@@ -56,13 +56,13 @@ class Hint(Interactable, Font):
             self.render_font(hint_display, hint, (2, 1))
             rect = pygame.Rect(-surf_wd, y, surf_wd, surf_ht)
 
-            hint = [False, hint_display, rect]  # is_showed, img, rect
+            hint = [False, 0, hint_display, rect]  # is_showed, idx, img, rect
             self.hints.append(hint)
 
         # Bookmarks
         self.bookmark_image = self.spritesets["bookmark"]
         self.bookmark_rects = []
-        for _, _, rect in self.hints:
+        for _, _, _, rect in self.hints:
             rect = pygame.Rect(rect.x + rect.w, rect.y, 8, 7)
             self.bookmark_rects.append(rect)
 
@@ -71,13 +71,22 @@ class Hint(Interactable, Font):
         status, rect, _ = self.button
         display.blit(self.btn_images[status], rect)
 
-        # Draw bookmarks
-        for rect in self.bookmark_rects:
-            display.blit(self.bookmark_image, rect)
-        
-        # Draw hints
-        for _, hint, pos in self.hints:
-            display.blit(hint, pos)
+        # Draw hints and bookmarks
+        for i, (hint_data, bookmark_rect) in enumerate(zip(self.hints, self.bookmark_rects)):
+            is_showed, idx, hint, rect = hint_data
+            
+            if is_showed and rect.x < 0:
+                # Update hint's x position using ease-out (parabola) equation: f(x) = -0.025x(x-wd)
+                rect.x += -(0.025 * idx) * (idx - rect.w)
+                rect.x = min(rect.x, 0)  # ensure x doesn't exceed 0
+                bookmark_rect.x = rect.x + rect.w
+
+                # Update hint's index
+                self.hints[i][1] += 1
+
+            # Draw hint and bookmark
+            display.blit(hint, rect)
+            display.blit(self.bookmark_image, bookmark_rect)
 
     def handle_mousemotion(self):
         status, _, hitbox = self.button
@@ -87,9 +96,10 @@ class Hint(Interactable, Font):
     def handle_mousebuttondown(self, mouse_pos):
         _, _, hitbox = self.button
         if hitbox.collidepoint(mouse_pos):
-            for idx, ((is_showed, _, rect), bookmark_rect) in enumerate(zip(self.hints, self.bookmark_rects)):
-                if not is_showed:
-                    self.hints[idx][0] = True
-                    rect.x = 0
-                    bookmark_rect.x = rect.x + rect.w
+            for i, hint_data in enumerate(self.hints):
+                if not hint_data[1]:  # is_showed
+                    self.hints[i][0] = True  # idx
                     return
+                
+    def restart(self, hint1, hint2):
+        self.init_bookmarks([hint1, hint2])
